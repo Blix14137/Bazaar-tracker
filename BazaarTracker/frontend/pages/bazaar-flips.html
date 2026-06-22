@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>Bazaar Flips - Bazaar Tracker</title>
+
+    <link rel="stylesheet" href="../styles.css">
+
+</head>
+
+<body class="app-layout">
+
+    <aside class="sidebar">
+
+        <a class="mayor-banner sidebar-mayor" href="mayor.html">
+            <span class="mayor-label">Current Mayor</span>
+            <strong id="mayorName">Loading...</strong>
+            <span id="mayorPerks" class="mayor-perks"></span>
+        </a>
+
+        <nav class="sidebar-nav" aria-label="Main navigation">
+
+            <a class="sidebar-link" href="../index.html">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M3 11.2 12 3l9 8.2h-2.4V21h-5.2v-6.2h-2.8V21H5.4v-9.8H3Z"/>
+                </svg>
+                <span>Home</span>
+            </a>
+
+            <a class="sidebar-link active" href="flipping-hub.html">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="m3 17.5 5.2-5.3 3.6 3.5L20 6.8l1.5 1.4-9.6 10.5-3.7-3.6-3.7 3.8Z"/>
+                </svg>
+                <span>Flipping hub</span>
+            </a>
+
+            <a class="sidebar-link" href="../index.html#item-flipper">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path fill-rule="evenodd" d="M5.4 4h13.2l2.1 5.1v2.2a3.1 3.1 0 0 1-1.2 2.5V21h-15v-7.2a3.1 3.1 0 0 1-1.2-2.5V9.1L5.4 4Zm1.3 2-1.2 3h13l-1.2-3H6.7ZM6.5 14.3V19h11v-4.7a3.2 3.2 0 0 1-2.8-1.3 3.3 3.3 0 0 1-5.4 0 3.2 3.2 0 0 1-2.8 1.3Z"/>
+                </svg>
+                <span>Item Flipper</span>
+            </a>
+
+        </nav>
+
+    </aside>
+
+    <main class="page-content flips-page">
+
+        <header class="list-page-header">
+            <div>
+                <p class="eyebrow">Buy order to sell order</p>
+                <h1>Bazaar Flips</h1>
+                <p>
+                    Order flips only: place a buy order, then relist the item
+                    with a sell order. Profit is shown for one item.
+                </p>
+            </div>
+
+            <a class="back-link" href="flipping-hub.html">Back to hub</a>
+        </header>
+
+        <section class="market-panel">
+
+            <div class="flip-table">
+
+                <div class="flip-row flip-heading">
+                    <span>Item</span>
+                    <span>Buy order</span>
+                    <span>Sell order</span>
+                    <span>Profit</span>
+                </div>
+
+                <div id="flipRows">
+                    <div class="empty-state">Loading flips...</div>
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+    <script src="../mayor.js"></script>
+
+    <script>
+
+        const flipRows = document.getElementById("flipRows");
+
+        function displayName(itemId) {
+            return itemId.replaceAll("_", " ");
+        }
+
+        function formatCoins(value) {
+            return Math.round(value).toLocaleString();
+        }
+
+        async function loadFlips() {
+
+            try {
+
+                const response =
+                    await fetch("http://localhost:8080/api/bazaar-flips");
+
+                if (!response.ok) {
+                    throw new Error("Could not load Bazaar flips.");
+                }
+
+                const flips = await response.json();
+                flipRows.innerHTML = "";
+
+                if (flips.length === 0) {
+                    flipRows.innerHTML =
+                        "<div class=\"empty-state\">No Bazaar flips found.</div>";
+                    return;
+                }
+
+                flips.forEach((flip, index) => {
+
+                    const row = document.createElement("button");
+
+                    row.className = "flip-row flip-result";
+                    row.onclick = () => {
+                        window.location.href =
+                            `item.html?item=${encodeURIComponent(flip.itemId)}`;
+                    };
+
+                    row.innerHTML = `
+                        <span>
+                            <strong>#${index + 1} ${displayName(flip.itemId)}</strong>
+                            <small>
+                                ${flip.profitPercent.toFixed(1)}% margin |
+                                ${formatCoins(flip.sellsPerHour)} sales/hour
+                            </small>
+                        </span>
+                        <span>${formatCoins(flip.buyPrice)}</span>
+                        <span>${formatCoins(flip.sellPrice)}</span>
+                        <span class="profit">+${formatCoins(flip.profit)}</span>
+                    `;
+
+                    flipRows.appendChild(row);
+                });
+
+            } catch (error) {
+
+                console.error(error);
+                flipRows.innerHTML =
+                    `<div class="empty-state">${error.message}</div>`;
+            }
+        }
+
+        loadFlips();
+
+    </script>
+
+</body>
+
+</html>

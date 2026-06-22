@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>Current Mayor - Bazaar Tracker</title>
+
+    <link rel="stylesheet" href="../styles.css">
+
+</head>
+
+<body class="app-layout">
+
+    <aside class="sidebar">
+
+        <a class="mayor-banner sidebar-mayor active-mayor" href="mayor.html">
+            <span class="mayor-label">Current Mayor</span>
+            <strong id="mayorName">Loading...</strong>
+            <span id="mayorPerks" class="mayor-perks"></span>
+        </a>
+
+        <nav class="sidebar-nav" aria-label="Main navigation">
+
+            <a class="sidebar-link" href="../index.html">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M3 11.2 12 3l9 8.2h-2.4V21h-5.2v-6.2h-2.8V21H5.4v-9.8H3Z"/>
+                </svg>
+                <span>Home</span>
+            </a>
+
+            <a class="sidebar-link" href="flipping-hub.html">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="m3 17.5 5.2-5.3 3.6 3.5L20 6.8l1.5 1.4-9.6 10.5-3.7-3.6-3.7 3.8Z"/>
+                </svg>
+                <span>Flipping hub</span>
+            </a>
+
+            <a class="sidebar-link" href="../index.html#item-flipper">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path fill-rule="evenodd" d="M5.4 4h13.2l2.1 5.1v2.2a3.1 3.1 0 0 1-1.2 2.5V21h-15v-7.2a3.1 3.1 0 0 1-1.2-2.5V9.1L5.4 4Zm1.3 2-1.2 3h13l-1.2-3H6.7ZM6.5 14.3V19h11v-4.7a3.2 3.2 0 0 1-2.8-1.3 3.3 3.3 0 0 1-5.4 0 3.2 3.2 0 0 1-2.8 1.3Z"/>
+                </svg>
+                <span>Item Flipper</span>
+            </a>
+
+        </nav>
+
+    </aside>
+
+    <main class="page-content mayor-page">
+
+        <header class="list-page-header">
+            <div>
+                <p class="eyebrow">SkyBlock Year <span id="mayorYear">...</span></p>
+                <h1 id="detailMayorName">Current Mayor</h1>
+                <p>Live election information from Hypixel.</p>
+            </div>
+        </header>
+
+        <section class="mayor-detail-grid">
+
+            <article class="detail-panel">
+                <p class="eyebrow">Active perks</p>
+                <div id="detailPerks" class="detail-list">
+                    <div class="empty-state">Loading perks...</div>
+                </div>
+            </article>
+
+            <article class="detail-panel">
+                <p class="eyebrow">Minister</p>
+                <div id="ministerDetails" class="minister-details">
+                    <div class="empty-state">Loading minister...</div>
+                </div>
+            </article>
+
+        </section>
+
+        <section class="detail-panel special-schedule">
+            <p class="eyebrow">Special mayor rotation</p>
+            <h2>Expected returns</h2>
+            <p class="detail-note">
+                Special candidates appear every eight SkyBlock years.
+                Dates are estimates and may change if Hypixel changes the rotation.
+            </p>
+            <div id="specialMayorSchedule" class="schedule-grid"></div>
+        </section>
+
+    </main>
+
+    <script src="../mayor.js"></script>
+
+    <script>
+
+        async function loadMayorDetails() {
+
+            try {
+
+                const response =
+                    await fetch("http://localhost:8080/api/mayor");
+
+                if (!response.ok) {
+                    throw new Error("Could not load mayor details.");
+                }
+
+                const mayor = await response.json();
+
+                document.getElementById("detailMayorName").textContent =
+                    mayor.name;
+
+                document.getElementById("mayorYear").textContent =
+                    mayor.currentYear;
+
+                const detailPerks =
+                    document.getElementById("detailPerks");
+
+                detailPerks.innerHTML = mayor.perks.map(perk => `
+                    <div class="detail-row">
+                        <strong>${perk.name}</strong>
+                        <p>${perk.description}</p>
+                    </div>
+                `).join("");
+
+                const ministerDetails =
+                    document.getElementById("ministerDetails");
+
+                if (mayor.minister) {
+                    ministerDetails.innerHTML = `
+                        <h2>${mayor.minister.name}</h2>
+                        <div class="detail-row">
+                            <strong>${mayor.minister.perk.name}</strong>
+                            <p>${mayor.minister.perk.description}</p>
+                        </div>
+                    `;
+                } else {
+                    ministerDetails.innerHTML = `
+                        <div class="detail-row">
+                            <strong>No minister</strong>
+                            <p>Special mayors do not select a minister.</p>
+                        </div>
+                    `;
+                }
+
+                const schedule =
+                    document.getElementById("specialMayorSchedule");
+
+                schedule.innerHTML = mayor.specialMayors.map(special => {
+                    const estimatedDate =
+                        new Date(
+                            mayor.lastUpdated +
+                            special.estimatedDays * 86400000
+                        ).toLocaleDateString(undefined, {
+                            month: "long",
+                            day: "numeric",
+                            year: "numeric"
+                        });
+
+                    return `
+                        <div class="schedule-card">
+                            <strong>${special.name}</strong>
+                            <span>SkyBlock Year ${special.nextYear}</span>
+                            <small>
+                                About ${special.estimatedDays} days
+                                (${estimatedDate})
+                            </small>
+                        </div>
+                    `;
+                }).join("");
+
+            } catch (error) {
+                console.error(error);
+                document.getElementById("detailPerks").innerHTML =
+                    `<div class="empty-state">${error.message}</div>`;
+            }
+        }
+
+        loadMayorDetails();
+
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>Flipping Hub - Bazaar Tracker</title>
+
+    <link rel="stylesheet" href="../styles.css">
+
+</head>
+
+<body class="app-layout">
+
+    <aside class="sidebar">
+
+        <a class="mayor-banner sidebar-mayor" href="mayor.html">
+            <span class="mayor-label">Current Mayor</span>
+            <strong id="mayorName">Loading...</strong>
+            <span id="mayorPerks" class="mayor-perks"></span>
+        </a>
+
+        <nav class="sidebar-nav" aria-label="Main navigation">
+
+            <a class="sidebar-link" href="../index.html">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M3 11.2 12 3l9 8.2h-2.4V21h-5.2v-6.2h-2.8V21H5.4v-9.8H3Z"/>
+                </svg>
+                <span>Home</span>
+            </a>
+
+            <a class="sidebar-link active" href="flipping-hub.html">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="m3 17.5 5.2-5.3 3.6 3.5L20 6.8l1.5 1.4-9.6 10.5-3.7-3.6-3.7 3.8Z"/>
+                </svg>
+                <span>Flipping hub</span>
+            </a>
+
+            <a class="sidebar-link" href="../index.html#item-flipper">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path fill-rule="evenodd" d="M5.4 4h13.2l2.1 5.1v2.2a3.1 3.1 0 0 1-1.2 2.5V21h-15v-7.2a3.1 3.1 0 0 1-1.2-2.5V9.1L5.4 4Zm1.3 2-1.2 3h13l-1.2-3H6.7ZM6.5 14.3V19h11v-4.7a3.2 3.2 0 0 1-2.8-1.3 3.3 3.3 0 0 1-5.4 0 3.2 3.2 0 0 1-2.8 1.3Z"/>
+                </svg>
+                <span>Item Flipper</span>
+            </a>
+
+        </nav>
+
+    </aside>
+
+    <main class="page-content hub-page">
+
+        <header class="hub-header">
+            <p class="eyebrow">Choose a strategy</p>
+            <h1>Flipping Hub</h1>
+            <p>Find profitable ways to grow your purse using current Bazaar prices.</p>
+        </header>
+
+        <section class="flip-type-grid">
+
+            <article class="flip-type-card">
+
+                <div class="flip-type-title">
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                        <circle cx="6.5" cy="7" r="2.2"/>
+                        <circle cx="11" cy="4.8" r="2.2"/>
+                        <circle cx="15.7" cy="6" r="2.2"/>
+                        <circle cx="18.5" cy="9.8" r="2"/>
+                        <path d="M12.2 9.2c-3.2 0-7.1 4.7-7.1 7.8 0 2 1.6 3.1 3.6 2.5 2.3-.7 4.4-.7 6.8 0 2 .6 3.7-.6 3.7-2.6 0-3.1-3.9-7.7-7-7.7Z"/>
+                    </svg>
+                    <h2>Kat Flips</h2>
+                </div>
+
+                <div class="flip-type-body">
+                    <p>
+                        Kat Flips are profitable pet upgrades using the NPC Kat.
+                        Compare upgrade costs against pet values to find the best
+                        opportunities.
+                    </p>
+
+                    <span class="hub-button disabled" aria-disabled="true">
+                        Coming soon
+                    </span>
+                </div>
+
+            </article>
+
+            <article class="flip-type-card">
+
+                <div class="flip-type-title">
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="M21.1 18.3 13 10.2a6.3 6.3 0 0 1-7.8-8l3.4 3.4 2.5-.6.6-2.5L8.3-.9a6.3 6.3 0 0 1 8 7.8l8.1 8.1-3.3 3.3Z"/>
+                    </svg>
+                    <h2>Craft Flips</h2>
+                </div>
+
+                <div class="flip-type-body">
+                    <p>
+                        Buy materials from the Bazaar, craft them into higher-value
+                        items, and compare the instant-buy cost with the instant-sell
+                        return.
+                    </p>
+
+                    <a class="hub-button" href="craft-flips.html">
+                        View Craft Flips
+                    </a>
+                </div>
+
+            </article>
+
+            <article class="flip-type-card">
+
+                <div class="flip-type-title">
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="M7 3 2.5 7.5 7 12V9h6V6H7V3Zm10 9v3h-6v3h6v3l4.5-4.5L17 12Z"/>
+                    </svg>
+                    <h2>Bazaar Flips</h2>
+                </div>
+
+                <div class="flip-type-body">
+                    <p>
+                        Place a buy order, then resell the item with a sell order.
+                        This list tracks order prices only, with no crafting or
+                        instant-trade calculations mixed in.
+                    </p>
+
+                    <a class="hub-button" href="bazaar-flips.html">
+                        View Bazaar Flips
+                    </a>
+                </div>
+
+            </article>
+
+            <article class="flip-type-card">
+
+                <div class="flip-type-title">
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                        <path fill-rule="evenodd" d="M5.4 4h13.2l2.1 5.1v2.2a3.1 3.1 0 0 1-1.2 2.5V21h-15v-7.2a3.1 3.1 0 0 1-1.2-2.5V9.1L5.4 4Zm1.3 2-1.2 3h13l-1.2-3H6.7ZM6.5 14.3V19h11v-4.7a3.2 3.2 0 0 1-2.8-1.3 3.3 3.3 0 0 1-5.4 0 3.2 3.2 0 0 1-2.8 1.3Z"/>
+                    </svg>
+                    <h2>AH Flips</h2>
+                </div>
+
+                <div class="flip-type-body">
+                    <p>
+                        Auction House Flips find underpriced BIN auctions that
+                        may be resold for profit by comparing similar items and
+                        recent market values.
+                    </p>
+
+                    <span class="hub-button disabled" aria-disabled="true">
+                        Coming soon
+                    </span>
+                </div>
+
+            </article>
+
+        </section>
+
+    </main>
+
+    <script src="../mayor.js"></script>
+
+</body>
+
+</html>

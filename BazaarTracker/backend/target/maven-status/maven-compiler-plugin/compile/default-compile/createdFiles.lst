@@ -1,0 +1,16 @@
+com\bazaartracker\controller\SearchController.class
+com\bazaartracker\service\DatabaseService$CraftingRecipe.class
+com\bazaartracker\model\MayorData$PerkData.class
+com\bazaartracker\model\MayorData$MinisterData.class
+com\bazaartracker\model\MayorData.class
+com\bazaartracker\model\PriceData.class
+com\bazaartracker\controller\HistoryController.class
+com\bazaartracker\service\BazaarCollector.class
+com\bazaartracker\BazaarTrackerApplication.class
+com\bazaartracker\model\FlipData.class
+com\bazaartracker\service\MayorService.class
+com\bazaartracker\model\CraftIngredientData.class
+com\bazaartracker\model\CraftRecipeData.class
+com\bazaartracker\controller\MayorController.class
+com\bazaartracker\model\MayorData$SpecialMayorData.class
+com\bazaartracker\service\DatabaseService.class

@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>Bazaar Tracker</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <link rel="stylesheet" href="../styles.css">
+
+</head>
+
+<body class="app-layout">
+
+    <aside class="sidebar">
+
+        <a class="mayor-banner sidebar-mayor" href="mayor.html">
+            <span class="mayor-label">Current Mayor</span>
+            <strong id="mayorName">Loading...</strong>
+            <span id="mayorPerks" class="mayor-perks"></span>
+        </a>
+
+        <nav class="sidebar-nav" aria-label="Main navigation">
+
+            <a class="sidebar-link" href="../index.html">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M3 11.2 12 3l9 8.2h-2.4V21h-5.2v-6.2h-2.8V21H5.4v-9.8H3Z"/>
+                </svg>
+                <span>Home</span>
+            </a>
+
+            <a class="sidebar-link" href="flipping-hub.html">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="m3 17.5 5.2-5.3 3.6 3.5L20 6.8l1.5 1.4-9.6 10.5-3.7-3.6-3.7 3.8Z"/>
+                </svg>
+                <span>Flipping hub</span>
+            </a>
+
+            <a class="sidebar-link active" href="../index.html#item-flipper">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path fill-rule="evenodd" d="M5.4 4h13.2l2.1 5.1v2.2a3.1 3.1 0 0 1-1.2 2.5V21h-15v-7.2a3.1 3.1 0 0 1-1.2-2.5V9.1L5.4 4Zm1.3 2-1.2 3h13l-1.2-3H6.7ZM6.5 14.3V19h11v-4.7a3.2 3.2 0 0 1-2.8-1.3 3.3 3.3 0 0 1-5.4 0 3.2 3.2 0 0 1-2.8 1.3Z"/>
+                </svg>
+                <span>Item Flipper</span>
+            </a>
+
+        </nav>
+
+    </aside>
+
+    <main class="page-content item-page">
+
+        <header class="item-header">
+
+            <div>
+                <p class="eyebrow">Bazaar item</p>
+                <h1 id="itemName">FINE JASPER GEM</h1>
+            </div>
+
+            <div class="search-container">
+
+                <input
+                    type="text"
+                    id="searchBox"
+                    placeholder="Search Bazaar Items..."
+                    autocomplete="off"
+                >
+
+                <div id="suggestions"></div>
+
+            </div>
+
+        </header>
+
+        <section class="item-overview">
+
+            <img
+                id="itemImage"
+                alt="Item image"
+                width="128"
+            >
+
+            <div class="price-card buy-card">
+                <span>Buy Price</span>
+                <strong id="buyPrice">0</strong>
+                <small>coins</small>
+            </div>
+
+            <div class="price-card sell-card">
+                <span>Sell Price</span>
+                <strong id="sellPrice">0</strong>
+                <small>coins</small>
+            </div>
+
+        </section>
+
+        <section class="chart-panel">
+
+            <div class="chart-toolbar">
+
+                <div>
+                    <p class="eyebrow">Market history</p>
+                    <h2>Price chart</h2>
+                </div>
+
+                <div class="buttons">
+                    <button onclick="loadHistory('1d')">1D</button>
+                    <button onclick="loadHistory('1w')">1W</button>
+                    <button onclick="loadHistory('1m')">1M</button>
+                    <button onclick="loadHistory('1y')">1Y</button>
+                    <button onclick="loadHistory('all')">All</button>
+                </div>
+
+            </div>
+
+            <canvas
+                id="priceChart"
+                width="1200"
+                height="500">
+            </canvas>
+
+        </section>
+
+        <section id="craftSection" class="craft-section">
+
+            <p class="eyebrow">
+                Recipe
+            </p>
+
+            <h2>
+                How to craft
+                <span id="craftOutput"></span>
+            </h2>
+
+            <div id="craftIngredients" class="craft-ingredients">
+                <div class="empty-state">Loading recipe...</div>
+            </div>
+
+            <div id="craftSummary" class="craft-summary"></div>
+
+        </section>
+
+    </main>
+
+    <script src="../mayor.js"></script>
+    <script src="../script.js"></script>
+
+</body>
+
+</html>

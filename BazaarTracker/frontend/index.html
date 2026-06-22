@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>Bazaar Tracker</title>
+
+    <link rel="stylesheet" href="styles.css">
+
+</head>
+
+<body class="app-layout">
+
+    <aside class="sidebar">
+
+        <a class="mayor-banner sidebar-mayor" href="pages/mayor.html">
+            <span class="mayor-label">Current Mayor</span>
+            <strong id="mayorName">Loading...</strong>
+            <span id="mayorPerks" class="mayor-perks"></span>
+        </a>
+
+        <nav class="sidebar-nav" aria-label="Main navigation">
+
+            <a class="sidebar-link active" href="index.html">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M3 11.2 12 3l9 8.2h-2.4V21h-5.2v-6.2h-2.8V21H5.4v-9.8H3Z"/>
+                </svg>
+                <span>Home</span>
+            </a>
+
+            <a class="sidebar-link" href="pages/flipping-hub.html">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="m3 17.5 5.2-5.3 3.6 3.5L20 6.8l1.5 1.4-9.6 10.5-3.7-3.6-3.7 3.8Z"/>
+                </svg>
+                <span>Flipping hub</span>
+            </a>
+
+            <a class="sidebar-link" href="#item-flipper">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path fill-rule="evenodd" d="M5.4 4h13.2l2.1 5.1v2.2a3.1 3.1 0 0 1-1.2 2.5V21h-15v-7.2a3.1 3.1 0 0 1-1.2-2.5V9.1L5.4 4Zm1.3 2-1.2 3h13l-1.2-3H6.7ZM6.5 14.3V19h11v-4.7a3.2 3.2 0 0 1-2.8-1.3 3.3 3.3 0 0 1-5.4 0 3.2 3.2 0 0 1-2.8 1.3Z"/>
+                </svg>
+                <span>Item Flipper</span>
+            </a>
+
+        </nav>
+
+    </aside>
+
+    <div class="page-content home-shell">
+
+        <header class="home-header">
+
+            <div>
+
+                <p class="eyebrow">
+                    Hypixel SkyBlock Bazaar
+                </p>
+
+                <h1>
+                    Bazaar Tracker
+                </h1>
+
+            </div>
+
+            <div id="item-flipper" class="search-container">
+
+                <input
+                    id="searchBox"
+                    type="text"
+                    placeholder="Search Bazaar Items..."
+                    autocomplete="off"
+                >
+
+                <div id="suggestions"></div>
+
+            </div>
+
+        </header>
+
+        <main id="flipping-hub" class="market-layout">
+
+            <section class="market-panel">
+
+                <div class="panel-header">
+
+                    <div>
+
+                        <p class="eyebrow">
+                            Order-based recipes
+                        </p>
+
+                        <h2>
+                            Top 3 Craft Flips
+                        </h2>
+
+                    </div>
+
+                    <span class="status-pill">
+                        All Bazaar recipes
+                    </span>
+
+                </div>
+
+                <div class="flip-table">
+
+                    <div class="flip-row flip-heading">
+                        <span>Item</span>
+                        <span>Cost</span>
+                        <span>Sell</span>
+                        <span>Profit</span>
+                    </div>
+
+                    <div id="flipRows">
+                        <div class="empty-state">Loading flips...</div>
+                    </div>
+
+                </div>
+
+            </section>
+
+        </main>
+
+    </div>
+
+    <script src="mayor.js"></script>
+
+    <script>
+
+        const searchBox =
+            document.getElementById("searchBox");
+
+        const suggestions =
+            document.getElementById("suggestions");
+
+        const flipRows =
+            document.getElementById("flipRows");
+
+        function displayName(itemId) {
+
+            return itemId.replaceAll("_", " ");
+        }
+
+        function formatCoins(value) {
+
+            return Math.round(value).toLocaleString();
+        }
+
+        searchBox.addEventListener("input", async () => {
+
+            const query =
+                searchBox.value.trim();
+
+            if (query.length < 2) {
+
+                suggestions.innerHTML = "";
+                suggestions.style.display = "none";
+                return;
+            }
+
+            const response =
+                await fetch(
+                    `http://localhost:8080/api/search?query=${encodeURIComponent(query)}`
+                );
+
+            const items =
+                await response.json();
+
+            suggestions.innerHTML = "";
+
+            items.forEach(item => {
+
+                const div =
+                    document.createElement("div");
+
+                div.className = "suggestion";
+
+                div.textContent =
+                    displayName(item);
+
+                div.onclick = () => {
+
+                    window.location.href =
+                        `pages/item.html?item=${item}`;
+
+                };
+
+                suggestions.appendChild(div);
+
+            });
+
+            suggestions.style.display =
+                items.length > 0
+                    ? "block"
+                    : "none";
+
+        });
+
+        async function loadCraftFlips() {
+
+            try {
+
+                const response =
+                    await fetch("http://localhost:8080/api/flips");
+
+                if (!response.ok) {
+
+                    if (response.status === 404) {
+                        throw new Error("Restart the backend to enable /api/flips.");
+                    }
+
+                    throw new Error("Backend returned " + response.status);
+                }
+
+                const flips =
+                    await response.json();
+
+                flipRows.innerHTML = "";
+
+                if (flips.length === 0) {
+
+                    flipRows.innerHTML =
+                        "<div class=\"empty-state\">No profitable flips found in the latest data.</div>";
+
+                    return;
+                }
+
+                flips.slice(0, 3).forEach((flip, index) => {
+
+                    const row =
+                        document.createElement("button");
+
+                    row.className = "flip-row flip-result";
+                    row.onclick = () => {
+                        window.location.href =
+                            `pages/item.html?item=${flip.itemId}`;
+                    };
+
+                    row.innerHTML = `
+                        <span>
+                            <strong>#${index + 1} ${displayName(flip.itemId)}</strong>
+                            <small>${flip.profitPercent.toFixed(1)}% margin</small>
+                        </span>
+                        <span>${formatCoins(flip.buyPrice)}</span>
+                        <span>${formatCoins(flip.sellPrice)}</span>
+                        <span class="profit">+${formatCoins(flip.profit)}</span>
+                    `;
+
+                    flipRows.appendChild(row);
+
+                });
+
+            } catch (error) {
+
+                console.error(error);
+
+                flipRows.innerHTML =
+                    `<div class="empty-state">${error.message}</div>`;
+
+            }
+        }
+
+        loadCraftFlips();
+
+    </script>
+
+</body>
+
+</html>

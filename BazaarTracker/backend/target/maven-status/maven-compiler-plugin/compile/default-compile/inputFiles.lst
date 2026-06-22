@@ -1,0 +1,12 @@
+C:\BazaarTracker\backend\src\main\java\com\bazaartracker\BazaarTrackerApplication.java
+C:\BazaarTracker\backend\src\main\java\com\bazaartracker\controller\HistoryController.java
+C:\BazaarTracker\backend\src\main\java\com\bazaartracker\controller\MayorController.java
+C:\BazaarTracker\backend\src\main\java\com\bazaartracker\controller\SearchController.java
+C:\BazaarTracker\backend\src\main\java\com\bazaartracker\model\CraftIngredientData.java
+C:\BazaarTracker\backend\src\main\java\com\bazaartracker\model\CraftRecipeData.java
+C:\BazaarTracker\backend\src\main\java\com\bazaartracker\model\FlipData.java
+C:\BazaarTracker\backend\src\main\java\com\bazaartracker\model\MayorData.java
+C:\BazaarTracker\backend\src\main\java\com\bazaartracker\model\PriceData.java
+C:\BazaarTracker\backend\src\main\java\com\bazaartracker\service\BazaarCollector.java
+C:\BazaarTracker\backend\src\main\java\com\bazaartracker\service\DatabaseService.java
+C:\BazaarTracker\backend\src\main\java\com\bazaartracker\service\MayorService.java
